@@ -2,6 +2,7 @@
 
 const gulp = require('gulp');
 const electron = require('electron-connect').server.create();
+const path = require('path');
 
 gulp.task('default', function () {
 // Start browser process
@@ -9,5 +10,5 @@ gulp.task('default', function () {
 // Restart browser process
   gulp.watch('public/dist/bundle.js', electron.restart);
 // Reload renderer process
-  gulp.watch(['index.html'], electron.reload);
+  gulp.watch(path.join(__dirname, '*'), electron.reload);
 });

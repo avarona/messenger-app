@@ -7,7 +7,6 @@ import store from './store.jsx';
 import Routes from './routes';
 
 import '../public/sass/style.scss';
-import 'bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(
   <Provider store={store}>

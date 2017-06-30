@@ -40,7 +40,6 @@ module.exports = {
         }
       }, {
         test: /\.(scss|sass)$/,
-        include: /node_modules/,
         loader: [
           'style-loader', // creates style nodes from JS strings
           'css-loader', // translates CSS into CommonJS
@@ -48,8 +47,20 @@ module.exports = {
         ]
       }, {
         test: /\.css$/,
-        loader: postcssLoader,
-        include: [__dirname]
+        exclude: [
+          path.join(__dirname, 'node_modules/react-toolbox')
+        ],
+        loader: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+      }, {
+        test: /\.css$/,
+        include: [
+          path.join(__dirname, 'node_modules/react-toolbox')
+        ],
+        loader: postcssLoader
       }
     ]
   }
