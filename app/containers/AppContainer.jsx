@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { Layout, NavDrawer, Panel } from 'react-toolbox';
 import { AppBar } from 'react-toolbox/lib/app_bar';
 import { Navigation } from 'react-toolbox/lib/navigation';
-import { Link } from 'react-toolbox/lib/Link';
+import { Link } from 'react-toolbox/lib/link';
 import { Button } from 'react-toolbox/lib/button';
+import { Dialog } from 'react-toolbox/lib/dialog';
 import { List, ListItem, ListSubHeader, ListDivider } from 'react-toolbox/lib/list';
 import Avatar from 'react-toolbox/lib/avatar';
 
@@ -15,13 +16,14 @@ class AppContainer extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			drawerActive: false,
+			drawerActive: true,
       drawerPinned: false,
-			addAccount: false
+			dialogActive: false
 		}
 		this.toggleDrawerActive = this.toggleDrawerActive.bind(this);
 		this.toggleDrawerPinned = this.toggleDrawerPinned.bind(this);
 		this.addAccount = this.addAccount.bind(this);
+		this.toggleDiaglogActive = this.toggleDiaglogActive.bind(this);
 	}
 
 	toggleDrawerActive() {
@@ -34,6 +36,10 @@ class AppContainer extends Component {
 
 	addAccount() {
 		this.setState({addAccount: !this.state.addAccount});
+	}
+
+	toggleDiaglogActive() {
+		this.setState({dialogActive: !this.state.dialogActive})
 	}
 
 	render() {
@@ -64,7 +70,15 @@ class AppContainer extends Component {
 					      rightIcon="star"
 					    />
 							<div className="center">
-								<Button label="+ Add Account" onClick={this.addAccount} flat primary />
+								<Button label="+ Add Account" onClick={this.toggleDiaglogActive} flat primary />
+								<Dialog
+									// actions={this.actions}
+									active={this.state.dialogActive}
+									onEscKeyDown={this.toggleDiaglogActive}
+									onOverlayClick={this.toggleDiaglogActive}
+									title="My awesome dialog">
+									Some dialog here
+								</Dialog>
 							</div>
 						</List>
 					</NavDrawer>
