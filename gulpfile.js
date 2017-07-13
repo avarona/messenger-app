@@ -6,7 +6,7 @@ const path = require('path');
 
 gulp.task('default', function () {
 // Start browser process
-  electron.start();
+  electron.start('--enable-logging');
 // Restart browser process
   gulp.watch('public/dist/bundle.js', electron.restart);
 // Reload renderer process

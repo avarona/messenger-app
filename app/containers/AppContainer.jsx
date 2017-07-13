@@ -11,6 +11,8 @@ import { List, ListItem, ListSubHeader, ListDivider } from 'react-toolbox/lib/li
 import Avatar from 'react-toolbox/lib/avatar';
 
 import { Google, Github } from '../components/Icons.jsx';
+import { googleAPI } from '../redux/reducers/google.js';
+import { facebookAPI } from '../redux/reducers/facebook.js';
 
 class AppContainer extends Component {
 	constructor(props){
@@ -22,8 +24,10 @@ class AppContainer extends Component {
 		}
 		this.toggleDrawerActive = this.toggleDrawerActive.bind(this);
 		this.toggleDrawerPinned = this.toggleDrawerPinned.bind(this);
-		this.addAccount = this.addAccount.bind(this);
 		this.toggleDiaglogActive = this.toggleDiaglogActive.bind(this);
+
+		this.googleLogin = this.googleLogin.bind(this);
+		this.facebookLogin = this.facebookLogin.bind(this);
 	}
 
 	toggleDrawerActive() {
@@ -34,12 +38,15 @@ class AppContainer extends Component {
     this.setState({drawerPinned: !this.state.drawerPinned});
   }
 
-	addAccount() {
-		this.setState({addAccount: !this.state.addAccount});
-	}
-
 	toggleDiaglogActive() {
 		this.setState({dialogActive: !this.state.dialogActive})
+	}
+
+	googleLogin() {
+		this.props.google()
+	}
+	facebookLogin() {
+		this.props.facebook()
 	}
 
 	render() {
@@ -52,8 +59,13 @@ class AppContainer extends Component {
 							<Link href="#" label="Sign In" icon="input" />
 						</Navigation>
 						</AppBar>
+
+						{/* LOAD URL */}
+						<webview style={{display: 'inline-flex', width: '100%', height: '100vh'}} src="https://hangouts.google.com" />
+
 					</Panel>
 					<NavDrawer active={this.state.drawerActive} pinned={this.state.drawerPinned} onOverlayClick={this.toggleDrawerActive}>
+
 						<List selectable ripple>
 					    <ListSubHeader caption="Explore accounts" />
 					    <ListItem
@@ -61,6 +73,7 @@ class AppContainer extends Component {
 					      caption="Google"
 					      legend="Messages: 3"
 					      rightIcon="star"
+								onClick={this.hangouts}
 					    />
 							<ListDivider />
 							<ListItem
@@ -69,18 +82,20 @@ class AppContainer extends Component {
 					      legend="Messages: 6"
 					      rightIcon="star"
 					    />
-							<div className="center">
-								<Button label="+ Add Account" onClick={this.toggleDiaglogActive} flat primary />
-								<Dialog
-									// actions={this.actions}
-									active={this.state.dialogActive}
-									onEscKeyDown={this.toggleDiaglogActive}
-									onOverlayClick={this.toggleDiaglogActive}
-									title="My awesome dialog">
-									Some dialog here
-								</Dialog>
-							</div>
 						</List>
+
+						<div className="center">
+							<Button label="+ Add Account" onClick={this.toggleDiaglogActive} flat primary />
+							<Dialog
+								// actions={this.actions}
+								active={this.state.dialogActive}
+								onEscKeyDown={this.toggleDiaglogActive}
+								onOverlayClick={this.toggleDiaglogActive}
+								title="My awesome dialog">
+								<Button label="GOOGLE" onClick={this.googleLogin} />
+								<Button label="FACEBOOK" onClick={this.facebookLogin} />
+							</Dialog>
+						</div>
 					</NavDrawer>
 				</Layout>
       </div>
@@ -90,4 +105,11 @@ class AppContainer extends Component {
 
 /* REDUX CONTAINER */
 
-export default connect()(AppContainer);
+const mapStateToProps = ({ googleAuth, facebookAuth }) => ({ googleAuth, facebookAuth })
+
+const mapDispatchToProps = dispatch => ({
+	google: () => dispatch(googleAPI()),
+	facebook: () => dispatch(facebookAPI()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

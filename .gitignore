@@ -15,5 +15,6 @@ public/dist
 # NPM errors
 npm-debug.log
 
-# API keys
+# API keys & env
+.env
 keys.js

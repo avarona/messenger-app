@@ -1,9 +1,46 @@
-const {app, BrowserWindow} = require('electron')
+require('dotenv').config();
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 const client = require('electron-connect').client;
 const db = require('./db');
 const chalk = require('chalk');
+const electronOauth2 = require('electron-oauth2');
+
+const oauthConfig = require('./config');
+
+const windowParams = {
+  width: 600,
+  height: 500,
+  alwaysOnTop: true,
+  autoHideMenuBar: true,
+  webPreferences: {
+    nodeIntegration: false
+  }
+};
+
+const googleOAuth = electronOauth2(oauthConfig.googleConfig, windowParams);
+const facebookOAuth = electronOauth2(oauthConfig.facebookConfig, windowParams);
+
+ipcMain.on('google-oauth', (event, arg) => {
+  googleOAuth.getAccessToken(oauthConfig.googleOptions)
+    .then(token => {
+      event.sender.send('google-oauth-reply', token);
+    })
+    .catch(err => {
+      console.log('Error while getting token', err);
+    })
+});
+
+ipcMain.on('facebook-oauth', (event, arg) => {
+  facebookOAuth.getAccessToken(oauthConfig.facebookOptions)
+    .then(token => {
+      event.sender.send('facebook-oauth-reply', token);
+    })
+    .catch(err => {
+      console.log('Error while getting token', err);
+    })
+});
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -37,6 +74,7 @@ function createWindow () {
     .then(() => {
       console.log(chalk.yellow('Database is running'));
     })
+    .catch(err => console.error(err))
 }
 
 // This method will be called when Electron has finished

@@ -13,8 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "electron": "^1.6.7",
-    "passport": "^0.3.2",
-    "passport-google-oauth": "^1.0.0",
+    "electron-oauth2": "^2.4.1",
     "pg": "^6.4.0",
     "pg-hstore": "^2.3.2",
     "react": "^15.5.4",
@@ -35,6 +34,7 @@
     "babel-preset-react": "^6.24.1",
     "chalk": "^2.0.1",
     "css-loader": "^0.28.4",
+    "dotenv": "^4.0.0",
     "electron-connect": "^0.6.1",
     "gulp": "^3.9.1",
     "node-sass": "^4.5.3",

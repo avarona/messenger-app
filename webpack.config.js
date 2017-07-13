@@ -29,6 +29,9 @@ module.exports = {
     path: path.join(__dirname, 'public/dist'),
     filename: 'bundle.js'
   },
+    node: {
+    fs: 'empty'
+  },
   module: {
     loaders: [
       {

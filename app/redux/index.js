@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 
 /* Import reducers and combine them below */
-import example from './reducers/example';
+import googleAuth from './reducers/google';
+import facebookAuth from './reducers/facebook';
 
 const store = combineReducers({
-  example
+  googleAuth,
+  facebookAuth
 });
 
 export default store;
