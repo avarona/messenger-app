@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { Button } from 'react-toolbox/lib/button';
 import { Dialog } from 'react-toolbox/lib/dialog';
+import { addAccount } from '../redux/reducers/chatSessions.js';
 
 class SocialDialog extends Component {
   constructor(props) {
@@ -10,11 +12,18 @@ class SocialDialog extends Component {
       dialogActive: false
     }
     this.toggleDialogActive = this.toggleDialogActive.bind(this);
+    this.addAccount = this.addAccount.bind(this);
   }
 
   toggleDialogActive() {
-		this.setState({dialogActive: !this.state.dialogActive})
+		this.setState({dialogActive: !this.state.dialogActive});
 	}
+
+  addAccount(account) {
+    const sidebar = this.props.chatSessions.sidebarAccounts;
+    if (sidebar.indexOf(account) < 0) this.props.addAccount(account)
+    this.setState({dialogActive: !this.state.dialogActive});
+  }
 
   render() {
     return (
@@ -24,13 +33,18 @@ class SocialDialog extends Component {
           active={this.state.dialogActive}
           onEscKeyDown={this.toggleDialogActive}
           onOverlayClick={this.toggleDialogActive}
-          title="My awesome dialog">
-          <Button label="GOOGLE" onClick={this.googleLogin} />
-          <Button label="FACEBOOK" onClick={this.facebookLogin} />
+          title="List of available accounts">
+          <Button label="GOOGLE" onClick={() => {this.addAccount('Google')}} />
         </Dialog>
       </div>
     )
   }
 }
 
-export default SocialDialog;
+const mapStateToProps = ({ chatSessions }) => ({ chatSessions });
+
+const mapDispatchToProps = dispatch => ({
+  addAccount: (account) => dispatch(addAccount(account))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SocialDialog);

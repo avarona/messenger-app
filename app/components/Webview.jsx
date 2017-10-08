@@ -1,16 +1,19 @@
 import React from 'react';
+const webview = window.require('electron')
 
 const styles = {
   webview: {
-    display: 'inline-flex',
+    // display: 'inline-flex',
+    margin: '0px',
+    padding: '0px',
     width: '100%',
     height: '100vh',
   }
 }
 
-const Webview = (props) => {
+const Webview = () => {
   return (
-    <webview style={styles.webview} src="https://hangouts.google.com" />
+    <webview style={styles.webview} src="https://web.wechat.com" />
   )
 }
 
