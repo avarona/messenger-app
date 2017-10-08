@@ -19,24 +19,17 @@ export const addAccount = (account) => ({
 
 /* -------------      API CALLS    ------------------- */
 
-// add a tab if it doesnt already exist
-export const addSessionAPI = (account) =>
-  (dispatch) => {
-    dispatch(addSession(account));
-}
-
-// add account and sign in (subscribe)
-export const addAccountAPI = (account) => {
-  dispatch => {
-    dispatch(addAccount(account));
-  }
-}
-
 /* -------------       REDUCER     ------------------- */
 
 const initialState = {
   activeAccounts: [],
-  sidebarAccounts: []
+  sidebarAccounts: [],
+  fixedAccounts: [
+    'Google',
+    'Facebook',
+    'WeChat',
+    'Skype'
+  ]
 }
 
 const chatSessions = (state = initialState, action) => {

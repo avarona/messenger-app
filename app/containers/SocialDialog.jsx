@@ -26,6 +26,7 @@ class SocialDialog extends Component {
   }
 
   render() {
+    const props = this.props.chatSessions;
     return (
       <div className="center">
         <Button label="+ Add Account" onClick={this.toggleDialogActive} flat primary />
@@ -34,7 +35,13 @@ class SocialDialog extends Component {
           onEscKeyDown={this.toggleDialogActive}
           onOverlayClick={this.toggleDialogActive}
           title="List of available accounts">
-          <Button label="GOOGLE" onClick={() => {this.addAccount('Google')}} />
+          {
+            props.fixedAccounts.map(account => {
+              return (
+                <Button key={props.fixedAccounts.indexOf(account)} label={account} onClick={() => {this.addAccount(account)}} />
+              )
+            })
+          }
         </Dialog>
       </div>
     )

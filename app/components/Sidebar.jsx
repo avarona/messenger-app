@@ -26,13 +26,12 @@ const Sidebar = (props) => {
                   }
                 />
               }
-              caption="Google"  // change to name
+              caption={account}  // change to name
               legend="Messages: 3"  // placeholder for future
               rightIcon="star"
               onClick={() => {
                 const activeTabs = sidebar.activeAccounts;
-                const name = 'Google'; // change with component props
-                if (activeTabs.indexOf(name) < 0) props.addChat(name)
+                if (activeTabs.indexOf(account) < 0) props.addChat(account)
               }}
             />
           )

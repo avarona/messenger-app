@@ -24,8 +24,10 @@ class AppContainer extends Component {
     this.setState({drawerActive: !this.state.drawerActive});
   }
 
-	ComponentDidMount() {
+	componentWillMount() {
 		// load all urls in tabs?
+		console.log(this)
+		// window.location.href = 'https://web.wechat.com';
 	}
 
 	render() {
@@ -42,7 +44,7 @@ class AppContainer extends Component {
 								props.activeAccounts.map(account => {
 									return (
 										<Tab key={props.activeAccounts.indexOf(account)} label={account} id="tab" style={{maxWidth: '200px'}}>
-											<Webview />
+											<Webview website="https://web.wechat.com" />
 										</Tab>
 									)
 								})
@@ -54,8 +56,7 @@ class AppContainer extends Component {
 					 {/* SIDEBAR */}
 					<NavDrawer
 						pinned={this.state.drawerActive}
-						onOverlayClick={this.toggleDrawerActive}
-						>
+						onOverlayClick={this.toggleDrawerActive}>
 						<Sidebar />
 					</NavDrawer>
 
