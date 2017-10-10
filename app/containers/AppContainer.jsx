@@ -4,47 +4,55 @@ import { Layout, NavDrawer, Panel, Tabs, Tab } from 'react-toolbox';
 
 import Webview from '../components/Webview.jsx';
 import Sidebar from '../components/Sidebar.jsx';
+import { drawer } from '../redux/reducers/navigation.js';
+import { activateChat } from '../redux/reducers/chatSessions.js';
 
 class AppContainer extends Component {
 	constructor(props){
 		super(props)
-		this.state = {
-			drawerActive: false,
-			fixedIndex: 0
-		}
 		this.toggleDrawerActive = this.toggleDrawerActive.bind(this);
 		this.handleFixedTabChange = this.handleFixedTabChange.bind(this);
 	}
 
 	handleFixedTabChange(index) {
-    this.setState({fixedIndex: index});
+		this.props.activateChat(index)
   }
 
 	toggleDrawerActive() {
-    this.setState({drawerActive: !this.state.drawerActive});
+		this.props.toggleDrawer();
   }
 
 	componentWillMount() {
 		// load all urls in tabs?
 		console.log(this)
-		// window.location.href = 'https://web.wechat.com';
 	}
 
 	render() {
-		const props = this.props.chatSessions;
+		const chats = this.props.chatSessions;
+		const navigation = this.props.navigation;
 		return (
 			<div>
 				<Layout>
 					<Panel>
-						<Tabs index={this.state.fixedIndex} onChange={this.handleFixedTabChange} hideMode="display" fixed>
+						<Tabs index={chats.activeTab} onChange={this.handleFixedTabChange} hideMode="display" fixed>
 							<Tab label="X" style={{maxWidth: '50px'}} onClick={this.toggleDrawerActive}>
 								Home Page
 							</Tab>
 							{
-								props.activeAccounts.map(account => {
+								chats.sidebarAccounts.map(account => {
+									let website = '';
+									chats.fixedAccounts.map(obj => {
+										if (Object.keys(obj).toString() === account) {
+											website = obj[account].website;
+										}
+									})
 									return (
-										<Tab key={props.activeAccounts.indexOf(account)} label={account} id="tab" style={{maxWidth: '200px'}}>
-											<Webview website="https://web.wechat.com" />
+										<Tab
+											key={chats.sidebarAccounts.indexOf(account)}
+											label={account}
+											id="tab"
+											style={{maxWidth: '200px'}}>
+											<Webview website={website} />
 										</Tab>
 									)
 								})
@@ -55,7 +63,7 @@ class AppContainer extends Component {
 
 					 {/* SIDEBAR */}
 					<NavDrawer
-						pinned={this.state.drawerActive}
+						pinned={navigation.drawer}
 						onOverlayClick={this.toggleDrawerActive}>
 						<Sidebar />
 					</NavDrawer>
@@ -66,6 +74,11 @@ class AppContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ chatSessions }) => ({ chatSessions });
+const mapStateToProps = ({ chatSessions, navigation }) => ({ chatSessions, navigation });
 
-export default connect(mapStateToProps)(AppContainer);
+const mapDispatchToProps = dispatch => ({
+  toggleDrawer: () => dispatch(drawer()),
+	activateChat: (index) => dispatch(activateChat(index))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

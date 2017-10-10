@@ -6,18 +6,26 @@ import Avatar from 'react-toolbox/lib/avatar';
 
 import SocialDialog from '../containers/SocialDialog.jsx';
 import { Google } from '../components/icons.jsx';
-import { addSession } from '../redux/reducers/chatSessions.js';
+import RemoveButton from './RemoveButton.jsx';
+import { activateChat } from '../redux/reducers/chatSessions.js';
 
 const Sidebar = (props) => {
-  const sidebar = props.chatSessions;
+  const sidebar = props.chatSessions.sidebarAccounts;
   return (
     <List selectable ripple>
       <ListSubHeader caption="Explore accounts" />
       {
-        sidebar.sidebarAccounts.map(account => {
+        sidebar.map(account => {
           return (
             <ListItem
-              key={sidebar.sidebarAccounts.indexOf(account)}
+              key={sidebar.indexOf(account)}
+              caption={account}
+              legend="Messages: 3"  // placeholder for future
+              rightIcon={(<RemoveButton remove={account} />)}
+              onClick={() => {
+                console.log(sidebar.indexOf(account))
+                props.activateChat(sidebar.indexOf(account) + 1);
+              }}
               avatar={
                 <Avatar
                   style={{backgroundColor: 'white'}}
@@ -26,13 +34,6 @@ const Sidebar = (props) => {
                   }
                 />
               }
-              caption={account}  // change to name
-              legend="Messages: 3"  // placeholder for future
-              rightIcon="star"
-              onClick={() => {
-                const activeTabs = sidebar.activeAccounts;
-                if (activeTabs.indexOf(account) < 0) props.addChat(account)
-              }}
             />
           )
         })
@@ -46,7 +47,7 @@ const Sidebar = (props) => {
 const mapStateToProps = ({ chatSessions }) => ({ chatSessions });
 
 const mapDispatchToProps = dispatch => ({
-  addChat: (account) => dispatch(addSession(account))
+  activateChat: (index) => dispatch(activateChat(index))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

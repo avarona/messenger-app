@@ -3,42 +3,48 @@ import { connect } from 'react-redux';
 
 import { Button } from 'react-toolbox/lib/button';
 import { Dialog } from 'react-toolbox/lib/dialog';
-import { addAccount } from '../redux/reducers/chatSessions.js';
+import { addSession, activateChat } from '../redux/reducers/chatSessions.js';
+import { dialog } from '../redux/reducers/navigation.js';
 
 class SocialDialog extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      dialogActive: false
-    }
     this.toggleDialogActive = this.toggleDialogActive.bind(this);
-    this.addAccount = this.addAccount.bind(this);
+    this.addChat = this.addChat.bind(this);
   }
 
   toggleDialogActive() {
-		this.setState({dialogActive: !this.state.dialogActive});
+    this.props.toggleDialog();
 	}
 
-  addAccount(account) {
-    const sidebar = this.props.chatSessions.sidebarAccounts;
-    if (sidebar.indexOf(account) < 0) this.props.addAccount(account)
-    this.setState({dialogActive: !this.state.dialogActive});
+  addChat(account) {
+    const chats = this.props.chatSessions.sidebarAccounts;
+    if (chats.indexOf(account) < 0) {
+      this.props.addSession(account);
+      this.props.activateChat(chats.indexOf(account) + 1);
+    }
+    this.props.toggleDialog();
   }
 
   render() {
-    const props = this.props.chatSessions;
+    const nav = this.props.navigation;
+    const chats = this.props.chatSessions;
     return (
       <div className="center">
         <Button label="+ Add Account" onClick={this.toggleDialogActive} flat primary />
         <Dialog
-          active={this.state.dialogActive}
+          active={nav.dialog}
           onEscKeyDown={this.toggleDialogActive}
           onOverlayClick={this.toggleDialogActive}
           title="List of available accounts">
           {
-            props.fixedAccounts.map(account => {
+            chats.fixedAccounts.map(obj => {
+              const account = Object.keys(obj).toString();
               return (
-                <Button key={props.fixedAccounts.indexOf(account)} label={account} onClick={() => {this.addAccount(account)}} />
+                <Button
+                  key={chats.fixedAccounts.indexOf(obj)}
+                  label={account}
+                  onClick={() => this.addChat(account)} />
               )
             })
           }
@@ -48,10 +54,12 @@ class SocialDialog extends Component {
   }
 }
 
-const mapStateToProps = ({ chatSessions }) => ({ chatSessions });
+const mapStateToProps = ({ chatSessions, navigation }) => ({ chatSessions, navigation });
 
 const mapDispatchToProps = dispatch => ({
-  addAccount: (account) => dispatch(addAccount(account))
+  addSession: (account) => dispatch(addSession(account)),
+  activateChat: (index) => dispatch(activateChat(index)),
+  toggleDialog: () => dispatch(dialog()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SocialDialog);
