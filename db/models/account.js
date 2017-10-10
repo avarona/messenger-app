@@ -19,7 +19,7 @@ const Account = db.define('accounts', {
     }
   },
   icon: {
-    type: Sequelize.STRING
+    type: Sequelize.TEXT
   }
 });
 
