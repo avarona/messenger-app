@@ -9,8 +9,9 @@ const ACTIVE_TAB = 'ACTIVE_TAB';
 
 /* ------------   ACTION CREATORS     ----------------- */
 
-export const getAccounts = () => ({
-  type: GET_ACCOUNTS
+export const getAccounts = (accounts) => ({
+  type: GET_ACCOUNTS,
+  accounts
 });
 
 export const addSession = (account) => ({
@@ -30,34 +31,20 @@ export const activateChat = (index) => ({
 
 /* -------------      API CALLS    ------------------- */
 
+export const getAccountsAPI = () =>
+  dispatch => {
+    ipcRenderer.send('get-accounts', 'getAccount')
+    ipcRenderer.on('get-accounts-reply', (event, accounts) => {
+      dispatch(getAccounts(accounts))
+    })
+  }
+
 /* -------------       REDUCER     ------------------- */
 
 const initialState = {
   activeTab: null,
   sidebarAccounts: [],
-  fixedAccounts: [
-    {
-      Google: {
-        icon: null,
-        website: 'https://hangouts.google.com/'
-      }
-    }, {
-      Facebook: {
-        icon: null,
-        website: 'https://www.messenger.com/'
-      }
-    }, {
-      WeChat: {
-        icon: null,
-        website: 'https://web.wechat.com/'
-      }
-    }, {
-      Skype: {
-        icon: null,
-        website: 'https://skype.com/'
-      }
-    }
-  ]
+  fixedAccounts: []
 }
 
 const chatSessions = (state = initialState, action) => {
@@ -65,12 +52,15 @@ const chatSessions = (state = initialState, action) => {
 
   switch (action.type) {
     case GET_ACCOUNTS:
-      return newState.fixedAccounts.push({
-        [action.name]: {
-          icon: action.icon,
-          website: action.website
-        }
-      });
+      action.accounts.map(account => {
+        newState.fixedAccounts.push({
+          [account.name]: {
+            icon: account.icon,
+            website: account.website
+          }
+        })
+      })
+      return newState;
     case ADD_SESSION:
       newState.sidebarAccounts.push(action.account);
       return newState;

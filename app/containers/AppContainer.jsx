@@ -5,7 +5,7 @@ import { Layout, NavDrawer, Panel, Tabs, Tab } from 'react-toolbox';
 import Webview from '../components/Webview.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import { drawer } from '../redux/reducers/navigation.js';
-import { activateChat } from '../redux/reducers/chatSessions.js';
+import { activateChat, getAccountsAPI } from '../redux/reducers/chatSessions.js';
 
 class AppContainer extends Component {
 	constructor(props){
@@ -15,7 +15,8 @@ class AppContainer extends Component {
 	}
 
 	handleFixedTabChange(index) {
-		this.props.activateChat(index)
+		console.log(index)
+		if (index !== 0) this.props.activateChat(index)
   }
 
 	toggleDrawerActive() {
@@ -24,7 +25,7 @@ class AppContainer extends Component {
 
 	componentWillMount() {
 		// load all urls in tabs?
-		console.log(this)
+		this.props.getAccounts()
 	}
 
 	render() {
@@ -35,7 +36,7 @@ class AppContainer extends Component {
 				<Layout>
 					<Panel>
 						<Tabs index={chats.activeTab} onChange={this.handleFixedTabChange} hideMode="display" fixed>
-							<Tab label="X" style={{maxWidth: '50px'}} onClick={this.toggleDrawerActive}>
+							<Tab icon="settings" style={{maxWidth: '50px'}} onClick={this.toggleDrawerActive}>
 								Home Page
 							</Tab>
 							{
@@ -63,7 +64,7 @@ class AppContainer extends Component {
 
 					 {/* SIDEBAR */}
 					<NavDrawer
-						pinned={navigation.drawer}
+						active={navigation.drawer}
 						onOverlayClick={this.toggleDrawerActive}>
 						<Sidebar />
 					</NavDrawer>
@@ -78,7 +79,8 @@ const mapStateToProps = ({ chatSessions, navigation }) => ({ chatSessions, navig
 
 const mapDispatchToProps = dispatch => ({
   toggleDrawer: () => dispatch(drawer()),
-	activateChat: (index) => dispatch(activateChat(index))
+	activateChat: (index) => dispatch(activateChat(index)),
+	getAccounts: () => dispatch(getAccountsAPI())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

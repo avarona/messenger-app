@@ -18,7 +18,7 @@ const Account = db.define('accounts', {
       notEmpty: true
     }
   },
-  image: {
+  icon: {
     type: Sequelize.STRING
   }
 });

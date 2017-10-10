@@ -4,6 +4,7 @@ const path = require('path')
 const url = require('url')
 const client = require('electron-connect').client;
 const db = require('./db');
+const Account = require('./db/models/account.js');
 const chalk = require('chalk');
 const electronOauth2 = require('electron-oauth2');
 
@@ -41,6 +42,19 @@ ipcMain.on('facebook-oauth', (event, arg) => {
       console.log('Error while getting token', err);
     })
 });
+
+// Access to Database
+ipcMain.on('get-accounts', (event) => {
+  Account.findAll()
+  .then(data => {
+    let values = []
+    data.forEach(obj => {
+      values.push(obj.dataValues)
+    });
+    event.sender.send('get-accounts-reply', values);
+  })
+  .catch(err => console.error(err))
+})
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
