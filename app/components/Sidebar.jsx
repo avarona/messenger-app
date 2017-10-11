@@ -14,7 +14,7 @@ const Sidebar = (props) => {
   let index = 0;
   return (
     <List selectable ripple>
-      <ListSubHeader caption="Explore accounts" />
+      <h1 className="center">Accounts</h1>
       {
         (sidebar.length)
         ? sidebar.map(account => {
@@ -25,8 +25,7 @@ const Sidebar = (props) => {
               legend="Messages: 3"  // placeholder for future
               rightIcon={(<RemoveButton remove={account} />)}
               onClick={() => {
-                console.log(sidebar.indexOf(account))
-                props.activateChat(sidebar.indexOf(account) + 1);
+                props.activateChat(sidebar.indexOf(account) + 2);
               }}
               avatar={
                 <Avatar

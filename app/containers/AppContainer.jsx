@@ -37,22 +37,21 @@ class AppContainer extends Component {
 					<Panel>
 						<Tabs index={chats.activeTab} onChange={this.handleFixedTabChange} hideMode="display" fixed>
 							<Tab icon="settings" style={{maxWidth: '50px'}} onClick={this.toggleDrawerActive}>
-								Home Page
+								No content
+							</Tab>
+							<Tab label="hi" hidden>
+								Main page component
 							</Tab>
 							{
 								chats.sidebarAccounts.map(account => {
 									let website = '';
 									chats.fixedAccounts.map(obj => {
-										if (Object.keys(obj).toString() === account) {
+										if (Object.keys(obj)[0] === account) {
 											website = obj[account].website;
 										}
 									})
 									return (
-										<Tab
-											key={chats.sidebarAccounts.indexOf(account)}
-											label={account}
-											id="tab"
-											style={{maxWidth: '200px'}}>
+										<Tab key={chats.sidebarAccounts.indexOf(account)} label={account} id="tab" style={{maxWidth: '200px'}}>
 											<Webview website={website} />
 										</Tab>
 									)

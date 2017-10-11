@@ -21,7 +21,7 @@ class SocialDialog extends Component {
     const chats = this.props.chatSessions.sidebarAccounts;
     if (chats.indexOf(account) < 0) {
       this.props.addSession(account);
-      this.props.activateChat(chats.indexOf(account) + 1);
+      this.props.activateChat(chats.indexOf(account) + 2);
     }
     this.props.toggleDialog();
   }
@@ -39,7 +39,7 @@ class SocialDialog extends Component {
           title="List of available accounts">
           {
             chats.fixedAccounts.map(obj => {
-              const account = Object.keys(obj).toString();
+              const account = Object.keys(obj)[0];
               return (
                 <Button
                   key={chats.fixedAccounts.indexOf(obj)}

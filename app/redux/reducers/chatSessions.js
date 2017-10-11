@@ -42,7 +42,7 @@ export const getAccountsAPI = () =>
 /* -------------       REDUCER     ------------------- */
 
 const initialState = {
-  activeTab: null,
+  activeTab: 1,
   sidebarAccounts: [],
   fixedAccounts: []
 }
