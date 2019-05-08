@@ -8,6 +8,7 @@ node_modules
 
 # Yarn lockfile
 yarn.lock
+yarn-error.log
 
 # Compiled JS
 public/dist
@@ -17,4 +18,3 @@ npm-debug.log
 
 # API keys & env
 .env
-keys.js
