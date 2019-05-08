@@ -1,4 +1,4 @@
-'use strict'
+
 
 const Sequelize = require('sequelize');
 const db = require('../_db.js');
@@ -8,19 +8,19 @@ const Account = db.define('accounts', {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      notEmpty: true
-    }
+      notEmpty: true,
+    },
   },
   website: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      notEmpty: true
-    }
+      notEmpty: true,
+    },
   },
   icon: {
-    type: Sequelize.TEXT
-  }
+    type: Sequelize.TEXT,
+  },
 });
 
 module.exports = Account;

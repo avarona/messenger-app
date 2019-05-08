@@ -15,3 +15,7 @@ install:
 	@$(MAKE) clean
 	@echo "\n> Installing packages..."
 	@yarn install
+
+seed:
+	@echo "\n> Seeding the database..."
+	@yarn seed

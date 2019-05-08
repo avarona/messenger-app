@@ -1,4 +1,4 @@
-const ipcRenderer = window.require('electron').ipcRenderer;
+const { ipcRenderer } = window.require('electron');
 
 /* -----------------    ACTIONS     ------------------ */
 
@@ -9,72 +9,71 @@ const ACTIVE_TAB = 'ACTIVE_TAB';
 
 /* ------------   ACTION CREATORS     ----------------- */
 
-export const getAccounts = (accounts) => ({
+export const getAccounts = accounts => ({
   type: GET_ACCOUNTS,
-  accounts
+  accounts,
 });
 
-export const addSession = (account) => ({
+export const addSession = account => ({
   type: ADD_SESSION,
-  account
+  account,
 });
 
-export const removeSession = (account) => ({
+export const removeSession = account => ({
   type: REMOVE_SESSION,
-  account
-})
+  account,
+});
 
-export const activateChat = (index) => ({
+export const activateChat = index => ({
   type: ACTIVE_TAB,
-  index
-})
+  index,
+});
 
 /* -------------      API CALLS    ------------------- */
 
-export const getAccountsAPI = () =>
-  dispatch => {
-    ipcRenderer.send('get-accounts', 'getAccount')
-    ipcRenderer.on('get-accounts-reply', (event, accounts) => {
-      dispatch(getAccounts(accounts))
-    })
-  }
+export const getAccountsAPI = () => (dispatch) => {
+  ipcRenderer.send('get-accounts', 'getAccount');
+  ipcRenderer.on('get-accounts-reply', (event, accounts) => {
+    dispatch(getAccounts(accounts));
+  });
+};
 
 /* -------------       REDUCER     ------------------- */
 
 const initialState = {
   activeTab: 1,
   sidebarAccounts: [],
-  fixedAccounts: []
-}
+  fixedAccounts: [],
+};
 
 const chatSessions = (state = initialState, action) => {
   const newState = Object.assign({}, state);
 
   switch (action.type) {
     case GET_ACCOUNTS:
-      action.accounts.map(account => {
+      action.accounts.forEach((account) => {
         newState.fixedAccounts.push({
           [account.name]: {
             icon: account.icon,
-            website: account.website
-          }
-        })
-      })
+            website: account.website,
+          },
+        });
+      });
       return newState;
     case ADD_SESSION:
       newState.sidebarAccounts.push(action.account);
       return newState;
     case REMOVE_SESSION:
-      newState.sidebarAccounts = newState.sidebarAccounts.filter(account => {
-        if (account !== action.account) return account;
-      })
+      newState.sidebarAccounts = newState.sidebarAccounts.filter(
+        account => account !== action.account,
+      );
       return newState;
     case ACTIVE_TAB:
       newState.activeTab = action.index;
       return newState;
     default:
       return state;
-    }
+  }
 };
 
 export default chatSessions;

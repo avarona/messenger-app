@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { Button } from "react-toolbox/lib/button";
-import { Dialog } from "react-toolbox/lib/dialog";
-import { addSession, activateChat } from "reducers/chatSessions.js";
-import { dialog } from "reducers/navigation.js";
+import { Button } from 'react-toolbox/lib/button';
+import { Dialog } from 'react-toolbox/lib/dialog';
+import { addSession, activateChat } from 'reducers/chatSessions';
+import { dialog } from 'reducers/navigation';
 
 class SocialDialog extends Component {
   constructor(props) {
@@ -14,7 +14,8 @@ class SocialDialog extends Component {
   }
 
   toggleDialogActive() {
-    this.props.toggleDialog();
+    const { toggleDialog } = this.props;
+    toggleDialog();
   }
 
   addChat(account) {
@@ -27,27 +28,22 @@ class SocialDialog extends Component {
   }
 
   render() {
-    const nav = this.props.navigation;
-    const chats = this.props.chatSessions;
+    const { navigation, chatSessions } = this.props;
+
     return (
       <div className="center">
-        <Button
-          label="+ Add Account"
-          onClick={this.toggleDialogActive}
-          flat
-          primary
-        />
+        <Button label="+ Add Account" onClick={this.toggleDialogActive} flat primary />
         <Dialog
-          active={nav.dialog}
+          active={navigation.dialog}
           onEscKeyDown={this.toggleDialogActive}
           onOverlayClick={this.toggleDialogActive}
           title="List of available accounts"
         >
-          {chats.fixedAccounts.map(obj => {
+          {chatSessions.fixedAccounts.map((obj) => {
             const account = Object.keys(obj)[0];
             return (
               <Button
-                key={chats.fixedAccounts.indexOf(obj)}
+                key={chatSessions.fixedAccounts.indexOf(obj)}
                 label={account}
                 onClick={() => this.addChat(account)}
               />
@@ -61,16 +57,16 @@ class SocialDialog extends Component {
 
 const mapStateToProps = ({ chatSessions, navigation }) => ({
   chatSessions,
-  navigation
+  navigation,
 });
 
 const mapDispatchToProps = dispatch => ({
   addSession: account => dispatch(addSession(account)),
   activateChat: index => dispatch(activateChat(index)),
-  toggleDialog: () => dispatch(dialog())
+  toggleDialog: () => dispatch(dialog()),
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(SocialDialog);

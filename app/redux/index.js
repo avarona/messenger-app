@@ -10,7 +10,7 @@ const store = combineReducers({
   googleAuth,
   facebookAuth,
   chatSessions,
-  navigation
+  navigation,
 });
 
 export default store;

@@ -3,31 +3,29 @@
 const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
 const TOGGLE_DIALOG = 'TOGGLE_DIALOG';
 
-
 /* ------------   ACTION CREATORS     ----------------- */
 
 export const drawer = () => ({
-  type: TOGGLE_DRAWER
+  type: TOGGLE_DRAWER,
 });
 
 export const dialog = () => ({
-  type: TOGGLE_DIALOG
-})
+  type: TOGGLE_DIALOG,
+});
 
 /* -------------      API CALLS    ------------------- */
 
 // Add all accounts to state
-export const getAccountsAPI = () =>
-  dispatch => {
-    dispatch(getAccounts());
-  }
+export const getAccountsAPI = () => (dispatch) => {
+  dispatch(getAccounts());
+};
 
 /* -------------       REDUCER     ------------------- */
 
 const initialState = {
   drawer: false,
-  dialog: false
-}
+  dialog: false,
+};
 
 const navigation = (state = initialState, action) => {
   const newState = Object.assign({}, state);
@@ -41,7 +39,7 @@ const navigation = (state = initialState, action) => {
       return newState;
     default:
       return state;
-    }
+  }
 };
 
 export default navigation;

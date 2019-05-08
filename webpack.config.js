@@ -1,37 +1,35 @@
-const path = require("path");
-const alias = require("./scripts/webpack/aliases");
+const path = require('path');
 
-const postcssPlugins = [
-  require("postcss-cssnext")(),
-  require("postcss-modules-values")
-];
+const postcssPlugins = [require('postcss-cssnext')(), require('postcss-modules-values')];
 
 const postcssLoader = [
   {
-    loader: "style-loader"
+    loader: 'style-loader',
   },
   {
-    loader: "css-loader",
+    loader: 'css-loader',
     options: {
-      modules: true
-    }
+      modules: true,
+    },
   },
   {
-    loader: "postcss-loader",
+    loader: 'postcss-loader',
     options: {
-      plugins: () => [...postcssPlugins]
-    }
-  }
+      plugins: () => [...postcssPlugins],
+    },
+  },
 ];
 
+const alias = require('./scripts/webpack/aliases');
+
 module.exports = {
-  entry: "./app/origin.jsx",
+  entry: './app/origin.jsx',
   output: {
-    path: path.join(__dirname, "public/dist"),
-    filename: "bundle.js"
+    path: path.join(__dirname, 'public/dist'),
+    filename: 'bundle.js',
   },
   node: {
-    fs: "empty"
+    fs: 'empty',
   },
   resolve: { alias },
   module: {
@@ -40,30 +38,30 @@ module.exports = {
         test: /\.(jsx?|tsx?)$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["react", "env"]
-          }
-        }
+            presets: ['react', 'env'],
+          },
+        },
       },
       {
         test: /\.(scss|sass)$/,
         use: [
-          "style-loader", // creates style nodes from JS strings
-          "css-loader", // translates CSS into CommonJS
-          "sass-loader" // compiles Sass to CSS
-        ]
+          'style-loader', // creates style nodes from JS strings
+          'css-loader', // translates CSS into CommonJS
+          'sass-loader', // compiles Sass to CSS
+        ],
       },
       {
         test: /\.css$/,
-        exclude: [path.join(__dirname, "node_modules/react-toolbox")],
-        use: ["style-loader", "css-loader", "sass-loader"]
+        exclude: [path.join(__dirname, 'node_modules/react-toolbox')],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.css$/,
-        include: [path.join(__dirname, "node_modules/react-toolbox")],
-        use: postcssLoader
-      }
-    ]
-  }
+        include: [path.join(__dirname, 'node_modules/react-toolbox')],
+        use: postcssLoader,
+      },
+    ],
+  },
 };
