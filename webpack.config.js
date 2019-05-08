@@ -1,7 +1,5 @@
-"use strict";
-
 const path = require("path");
-const alias = require("./scripts/webpack/aliases.js");
+const alias = require("./scripts/webpack/aliases");
 
 const postcssPlugins = [
   require("postcss-cssnext")(),
@@ -35,6 +33,7 @@ module.exports = {
   node: {
     fs: "empty"
   },
+  resolve: { alias },
   module: {
     rules: [
       {
