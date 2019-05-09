@@ -1,25 +1,4 @@
 const path = require('path');
-
-const postcssPlugins = [require('postcss-cssnext')(), require('postcss-modules-values')];
-
-const postcssLoader = [
-  {
-    loader: 'style-loader',
-  },
-  {
-    loader: 'css-loader',
-    options: {
-      modules: true,
-    },
-  },
-  {
-    loader: 'postcss-loader',
-    options: {
-      plugins: () => [...postcssPlugins],
-    },
-  },
-];
-
 const alias = require('./scripts/webpack/aliases');
 
 module.exports = {
@@ -56,11 +35,6 @@ module.exports = {
         test: /\.css$/,
         exclude: [path.join(__dirname, 'node_modules/react-toolbox')],
         use: ['style-loader', 'css-loader', 'sass-loader'],
-      },
-      {
-        test: /\.css$/,
-        include: [path.join(__dirname, 'node_modules/react-toolbox')],
-        use: postcssLoader,
       },
     ],
   },

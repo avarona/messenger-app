@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "react",
+    "lib": ["dom", "es2017"],
+    "noImplicitAny": false,
+    "removeComments": true,
+    "sourceMap": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "app",
+    "paths": {
+      "actions/*": ["store/actions/*"],
+      "selectors/*": ["store/selectors/*"],
+      "components/*": ["components/*"],
+      "containers/*": ["containers/*"],
+      "reducers/*": ["redux/reducers/*"],
+      "api/*": ["api/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
