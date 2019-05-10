@@ -5,6 +5,6 @@ import AppContainer from 'containers/AppContainer';
 
 export default () => (
   <Router>
-    <AppContainer>{/* <Route path="/" component={} /> */}</AppContainer>
+    <AppContainer />
   </Router>
 );

@@ -1,3 +1,7 @@
+build:
+	@echo "\n> Building assets and starting development server..."
+	@yarn build
+
 start:
 	@echo "\n> Building assets and starting development server..."
 	if test ! -f public/dist/bundle.js; then yarn build; fi;
@@ -6,7 +10,6 @@ start:
 clean:
 	@echo "\n> Cleaning project..."
 	@yarn cache clean
-	@rm -rf node_modules
 	@rm -rf node_modules
 	@rm -rf public/dist
 

@@ -6,9 +6,9 @@ import {
 } from 'react-toolbox/lib/list';
 import Avatar from 'react-toolbox/lib/avatar';
 
-import SocialDialog from 'containers/SocialDialog.jsx';
-import RemoveButton from 'components/RemoveButton.jsx';
-import { activateChat } from 'reducers/chatSessions.js';
+import SocialDialog from 'containers/SocialDialog';
+import RemoveButton from 'components/RemoveButton';
+import { activateChat } from 'reducers/chatSessions';
 
 const Sidebar = (props) => {
   const sidebar = props.chatSessions.sidebarAccounts;
@@ -31,13 +31,13 @@ const Sidebar = (props) => {
               <Avatar
                 style={{ backgroundColor: 'white' }}
                 image={
-                    accounts.map((obj) => {
-                      if (Object.keys(obj)[0] === account) {
-                        index = accounts.indexOf(obj);
-                        return <img key={accounts.indexOf(account)} src={obj[account].icon} />;
-                      }
-                    })[index]
-                  }
+                  accounts.map((obj) => {
+                    if (Object.keys(obj)[0] === account) {
+                      index = accounts.indexOf(obj);
+                      return <img key={accounts.indexOf(account)} src={obj[account].icon} />;
+                    }
+                  })[index]
+                }
               />
 )}
           />

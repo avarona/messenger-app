@@ -12,13 +12,12 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "app",
     "paths": {
-      "actions/*": ["store/actions/*"],
-      "selectors/*": ["store/selectors/*"],
       "components/*": ["components/*"],
       "containers/*": ["containers/*"],
-      "reducers/*": ["redux/reducers/*"],
-      "api/*": ["api/*"]
+      "reducers/*": ["store/reducers/*", "store/reducers"],
+      "reducers": ["store/reducers"],
+      "@/*": ["./*"]
     }
   },
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "public/dist"]
 }

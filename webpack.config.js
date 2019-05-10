@@ -1,5 +1,26 @@
 const path = require('path');
+const cssNext = require('postcss-cssnext');
+const moduleValues = require('postcss-modules-values');
+
 const alias = require('./scripts/webpack/aliases');
+
+const postcssLoader = [
+  {
+    loader: 'style-loader',
+  },
+  {
+    loader: 'css-loader',
+    options: {
+      modules: true,
+    },
+  },
+  {
+    loader: 'postcss-loader',
+    options: {
+      plugins: () => [cssNext, moduleValues],
+    },
+  },
+];
 
 module.exports = {
   entry: './app/origin.jsx',
@@ -10,7 +31,12 @@ module.exports = {
   node: {
     fs: 'empty',
   },
-  resolve: { alias },
+  mode: process.env.NODE_ENV,
+  resolve: {
+    modules: [path.resolve('app'), 'node_modules'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.scss'],
+    alias,
+  },
   module: {
     rules: [
       {
@@ -35,6 +61,11 @@ module.exports = {
         test: /\.css$/,
         exclude: [path.join(__dirname, 'node_modules/react-toolbox')],
         use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.css$/,
+        include: [path.join(__dirname, 'node_modules/react-toolbox')],
+        loader: postcssLoader,
       },
     ],
   },
